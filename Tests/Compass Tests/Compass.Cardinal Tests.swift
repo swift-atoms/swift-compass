@@ -1,4 +1,4 @@
-import Compass_Primitives
+import Compass
 import Testing
 
 @Suite

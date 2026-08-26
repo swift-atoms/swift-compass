@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-compass-primitives",
+    name: "swift-compass",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -14,28 +14,28 @@ let package = Package(
 
         .library(name: "Compass Primitive", targets: ["Compass Primitive"]),
 
-        .library(name: "Compass Equation Primitives", targets: ["Compass Equation Primitives"]),
-        .library(name: "Compass Hash Primitives", targets: ["Compass Hash Primitives"]),
-        .library(name: "Compass Comparison Primitives", targets: ["Compass Comparison Primitives"]),
+        .library(name: "Compass Equation", targets: ["Compass Equation"]),
+        .library(name: "Compass Hash", targets: ["Compass Hash"]),
+        .library(name: "Compass Comparison", targets: ["Compass Comparison"]),
 
-        .library(name: "Compass Primitives", targets: ["Compass Primitives"]),
+        .library(name: "Compass", targets: ["Compass"]),
 
         .library(
-            name: "Compass Primitives Test Support",
-            targets: ["Compass Primitives Test Support"]
+            name: "Compass Test Support",
+            targets: ["Compass Test Support"]
         ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-equation-primitives.git",
+            url: "https://github.com/swift-molecules/swift-equation.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-hash-primitives.git",
+            url: "https://github.com/swift-molecules/swift-hash.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-comparison-primitives.git",
+            url: "https://github.com/swift-molecules/swift-comparison.git",
             branch: "main"
         ),
     ],
@@ -44,50 +44,50 @@ let package = Package(
         .target(name: "Compass Primitive", dependencies: []),
 
         .target(
-            name: "Compass Equation Primitives",
+            name: "Compass Equation",
             dependencies: [
                 "Compass Primitive",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .product(name: "Equation", package: "swift-equation"),
             ]
         ),
         .target(
-            name: "Compass Hash Primitives",
+            name: "Compass Hash",
             dependencies: [
                 "Compass Primitive",
-                .product(name: "Hash Primitives", package: "swift-hash-primitives"),
+                .product(name: "Hash", package: "swift-hash"),
             ]
         ),
         .target(
-            name: "Compass Comparison Primitives",
+            name: "Compass Comparison",
             dependencies: [
                 "Compass Primitive",
-                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
-            ]
-        ),
-
-        .target(
-            name: "Compass Primitives",
-            dependencies: [
-                "Compass Primitive",
-                "Compass Equation Primitives",
-                "Compass Hash Primitives",
-                "Compass Comparison Primitives",
+                .product(name: "Comparison", package: "swift-comparison"),
             ]
         ),
 
         .target(
-            name: "Compass Primitives Test Support",
+            name: "Compass",
             dependencies: [
-                "Compass Primitives"
+                "Compass Primitive",
+                "Compass Equation",
+                "Compass Hash",
+                "Compass Comparison",
+            ]
+        ),
+
+        .target(
+            name: "Compass Test Support",
+            dependencies: [
+                "Compass"
             ],
             path: "Tests/Support"
         ),
 
         .testTarget(
-            name: "Compass Primitives Tests",
+            name: "Compass Tests",
             dependencies: [
-                "Compass Primitives",
-                "Compass Primitives Test Support",
+                "Compass",
+                "Compass Test Support",
             ]
         ),
     ],
