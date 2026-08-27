@@ -11,83 +11,45 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(name: "Compass Primitive", targets: ["Compass Primitive"]),
-
-        .library(name: "Compass Equation", targets: ["Compass Equation"]),
-        .library(name: "Compass Hash", targets: ["Compass Hash"]),
-        .library(name: "Compass Comparison", targets: ["Compass Comparison"]),
-
-        .library(name: "Compass", targets: ["Compass"]),
-
         .library(
-            name: "Compass Test Support",
-            targets: ["Compass Test Support"]
+            name: "Compass",
+            targets: ["Compass"]
+        ),
+        .library(
+            name: "Compass Standard Library Integration",
+            targets: ["Compass Standard Library Integration"]
+        ),
+        .library(
+            name: "Compass Apple Foundation Integration",
+            targets: ["Compass Apple Foundation Integration"]
         ),
     ],
-    dependencies: [
-        .package(
-            url: "https://github.com/swift-molecules/swift-equation.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-hash.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-comparison.git",
-            branch: "main"
-        ),
-    ],
+    dependencies: [],
     targets: [
-
-        .target(name: "Compass Primitive", dependencies: []),
-
-        .target(
-            name: "Compass Equation",
-            dependencies: [
-                "Compass Primitive",
-                .product(name: "Equation", package: "swift-equation"),
-            ]
-        ),
-        .target(
-            name: "Compass Hash",
-            dependencies: [
-                "Compass Primitive",
-                .product(name: "Hash", package: "swift-hash"),
-            ]
-        ),
-        .target(
-            name: "Compass Comparison",
-            dependencies: [
-                "Compass Primitive",
-                .product(name: "Comparison", package: "swift-comparison"),
-            ]
-        ),
-
         .target(
             name: "Compass",
-            dependencies: [
-                "Compass Primitive",
-                "Compass Equation",
-                "Compass Hash",
-                "Compass Comparison",
-            ]
+            dependencies: []
         ),
-
         .target(
-            name: "Compass Test Support",
-            dependencies: [
-                "Compass"
-            ],
-            path: "Tests/Support"
+            name: "Compass Standard Library Integration",
+            dependencies: ["Compass"]
         ),
-
-        .testTarget(
-            name: "Compass Tests",
+        .target(
+            name: "Compass Apple Foundation Integration",
             dependencies: [
                 "Compass",
-                "Compass Test Support",
+                "Compass Standard Library Integration",
+            ]
+        ),
+        .testTarget(
+            name: "Compass Tests",
+            dependencies: ["Compass"]
+        ),
+        .testTarget(
+            name: "Compass Standard Library Integration Tests",
+            dependencies: [
+                "Compass",
+                "Compass Standard Library Integration",
             ]
         ),
     ],
