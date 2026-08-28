@@ -1,4 +1,4 @@
-# Compass Primitives
+# Compass
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -11,7 +11,7 @@ Cardinal compass directions for Swift — `Compass.Cardinal` (north, east, south
 `Compass.Cardinal` is the four cardinal directions as a named view over the points of the compass: a payload-less enum whose canonical case order is the clockwise bearing north → east → south → west. It carries the directional vocabulary — turning, reversing, enumerating, ordering — without pulling in any geometry or platform machinery.
 
 ```swift
-import Compass_Primitives
+import Compass
 
 let heading = Compass.Cardinal.north
 
@@ -28,7 +28,8 @@ print(bearing)            // west
 `allCases` is the clockwise sequence, and ordering follows the same clockwise rank — so directions sort and hash by bearing:
 
 ```swift
-import Compass_Primitives
+import Compass_Comparison
+import Compass_Hash
 
 Array(Compass.Cardinal.allCases)            // [.north, .east, .south, .west]
 
@@ -39,7 +40,7 @@ let visited: Set<Compass.Cardinal> = [.north, .east, .north]
 visited.count                               // 2
 ```
 
-`Compass.Cardinal` conforms to `CaseIterable` and `Sendable`, is `Codable` outside Embedded, and witnesses the institute `Equation` / `Hash` / `Comparison` protocol twins alongside the stdlib `Equatable` / `Hashable` / `Comparable` conformances.
+`Compass.Cardinal` conforms to `CaseIterable` and `Sendable` and is `Codable` outside Embedded. The `Compass Hash` and `Compass Comparison` layers provide their respective protocol conformances.
 
 ---
 
@@ -47,7 +48,7 @@ visited.count                               // 2
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-compass-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-compass.git", branch: "main")
 ]
 ```
 
@@ -55,7 +56,8 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Compass Primitives", package: "swift-compass-primitives"),
+        .product(name: "Compass Hash", package: "swift-compass"),
+        .product(name: "Compass Comparison", package: "swift-compass"),
     ]
 )
 ```
@@ -66,16 +68,13 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Import the `Compass Primitives` umbrella for the type plus every conformance, or depend on a single sub-namespace target to pay for only the conformance you need.
+Depend on the base namespace or on the specific conformance layer you need.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Compass Primitive` | `Sources/Compass Primitive/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and the `==` / `<` / `hash(into:)` witnesses. Zero dependencies. |
-| `Compass Equation Primitives` | `Sources/Compass Equation Primitives/` | Conforms `Compass.Cardinal` to the institute `Equation.Protocol` twin. |
-| `Compass Hash Primitives` | `Sources/Compass Hash Primitives/` | Conforms `Compass.Cardinal` to the institute `Hash.Protocol` twin. |
-| `Compass Comparison Primitives` | `Sources/Compass Comparison Primitives/` | Conforms `Compass.Cardinal` to the institute `Comparison.Protocol` twin, ordered by clockwise rank. |
-| `Compass Primitives` | `Sources/Compass Primitives/` | Umbrella: re-exports the namespace and all three conformance modules. |
-| `Compass Primitives Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
+| `Compass` | `Sources/Compass/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and their operators. Zero dependencies. |
+| `Compass Hash` | `Sources/Compass Hash/` | Conforms `Compass.Cardinal` to `Hash.Protocol`. |
+| `Compass Comparison` | `Sources/Compass Comparison/` | Conforms `Compass.Cardinal` to `Comparison.Protocol`, ordered by clockwise rank. |
 
 Foundation-free.
 

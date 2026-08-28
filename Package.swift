@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-compass-primitives",
+    name: "swift-compass",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -12,82 +12,55 @@ let package = Package(
     ],
     products: [
 
-        .library(name: "Compass Primitive", targets: ["Compass Primitive"]),
+        .library(name: "Compass", targets: ["Compass"]),
 
-        .library(name: "Compass Equation Primitives", targets: ["Compass Equation Primitives"]),
-        .library(name: "Compass Hash Primitives", targets: ["Compass Hash Primitives"]),
-        .library(name: "Compass Comparison Primitives", targets: ["Compass Comparison Primitives"]),
-
-        .library(name: "Compass Primitives", targets: ["Compass Primitives"]),
-
-        .library(
-            name: "Compass Primitives Test Support",
-            targets: ["Compass Primitives Test Support"]
-        ),
+        .library(name: "Compass Hash", targets: ["Compass Hash"]),
+        .library(name: "Compass Comparison", targets: ["Compass Comparison"]),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-equation-primitives.git",
+            url: "https://github.com/swift-atoms/swift-hash.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-hash-primitives.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-primitives/swift-comparison-primitives.git",
+            url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
         ),
     ],
     targets: [
 
-        .target(name: "Compass Primitive", dependencies: []),
+        .target(name: "Compass", dependencies: []),
 
         .target(
-            name: "Compass Equation Primitives",
+            name: "Compass Hash",
             dependencies: [
-                "Compass Primitive",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .target(name: "Compass"),
+                .product(name: "Hash Protocol", package: "swift-hash"),
             ]
         ),
         .target(
-            name: "Compass Hash Primitives",
+            name: "Compass Comparison",
             dependencies: [
-                "Compass Primitive",
-                .product(name: "Hash Primitives", package: "swift-hash-primitives"),
+                .target(name: "Compass"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
             ]
         ),
-        .target(
-            name: "Compass Comparison Primitives",
-            dependencies: [
-                "Compass Primitive",
-                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
-            ]
-        ),
-
-        .target(
-            name: "Compass Primitives",
-            dependencies: [
-                "Compass Primitive",
-                "Compass Equation Primitives",
-                "Compass Hash Primitives",
-                "Compass Comparison Primitives",
-            ]
-        ),
-
-        .target(
-            name: "Compass Primitives Test Support",
-            dependencies: [
-                "Compass Primitives"
-            ],
-            path: "Tests/Support"
-        ),
-
         .testTarget(
-            name: "Compass Primitives Tests",
+            name: "Compass Tests",
             dependencies: [
-                "Compass Primitives",
-                "Compass Primitives Test Support",
+                .target(name: "Compass"),
+            ]
+        ),
+        .testTarget(
+            name: "Compass Hash Tests",
+            dependencies: [
+                .target(name: "Compass Hash"),
+            ]
+        ),
+        .testTarget(
+            name: "Compass Comparison Tests",
+            dependencies: [
+                .target(name: "Compass Comparison"),
             ]
         ),
     ],
