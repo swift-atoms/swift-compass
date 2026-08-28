@@ -39,7 +39,7 @@ let visited: Set<Compass.Cardinal> = [.north, .east, .north]
 visited.count                               // 2
 ```
 
-`Compass.Cardinal` is `Sendable`, conforms to `CaseIterable` and (outside Embedded) `Codable` via the `Compass Standard Library Integration` product, and witnesses the institute `Equation` / `Hash` / `Comparison` protocol twins through the separate `swift-compass-equation` / `swift-compass-hash` / `swift-compass-comparison` packages.
+`Compass.Cardinal` conforms to `CaseIterable` and `Sendable`, is `Codable` outside Embedded, and witnesses the institute `Equation` / `Hash` / `Comparison` protocol twins alongside the stdlib `Equatable` / `Hashable` / `Comparable` conformances.
 
 ---
 
@@ -66,15 +66,18 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
+Import the `Compass` umbrella for the type plus every conformance, or depend on a single sub-namespace target to pay for only the conformance you need.
+
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Compass` | `Sources/Compass/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and the `==` / `<` / `hash(into:)` witnesses. Zero dependencies. |
-| `Compass Standard Library Integration` | `Sources/Compass Standard Library Integration/` | Swift standard library conformances: `CaseIterable` and (outside Embedded) `Codable`. |
-| `Compass Apple Foundation Integration` | `Sources/Compass Apple Foundation Integration/` | The only module allowed to import Foundation. Currently a seed. |
+| `Compass Primitive` | `Sources/Compass Primitive/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and the `==` / `<` / `hash(into:)` witnesses. Zero dependencies. |
+| `Compass Equation` | `Sources/Compass Equation/` | Conforms `Compass.Cardinal` to the institute `Equation.Protocol` twin. |
+| `Compass Hash` | `Sources/Compass Hash/` | Conforms `Compass.Cardinal` to the institute `Hash.Protocol` twin. |
+| `Compass Comparison` | `Sources/Compass Comparison/` | Conforms `Compass.Cardinal` to the institute `Comparison.Protocol` twin, ordered by clockwise rank. |
+| `Compass` | `Sources/Compass/` | Umbrella: re-exports the namespace and all three conformance modules. |
+| `Compass Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
-Institute protocol integrations live in their own packages: `swift-compass-equation`, `swift-compass-hash`, `swift-compass-comparison`.
-
-Foundation-free at the core.
+Foundation-free.
 
 ---
 

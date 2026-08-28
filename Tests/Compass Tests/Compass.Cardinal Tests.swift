@@ -27,16 +27,30 @@ extension `Compass.Cardinal - Semantics`.Unit {
 
     @Test
     func `counterclockwise inverts clockwise`() {
-        for c in [Compass.Cardinal.north, .east, .south, .west] {
+        for c in Compass.Cardinal.allCases {
             #expect(c.clockwise.counterclockwise == c)
         }
     }
 
     @Test
     func `opposite is involution`() {
-        for c in [Compass.Cardinal.north, .east, .south, .west] {
+        for c in Compass.Cardinal.allCases {
             #expect(c.opposite.opposite == c)
         }
+    }
+}
+
+@Suite
+struct `Compass.Cardinal - CaseIterable` {
+    @Suite struct Unit {}
+    @Suite struct `Edge Case` {}
+    @Suite struct Integration {}
+}
+
+extension `Compass.Cardinal - CaseIterable`.Unit {
+    @Test
+    func `allCases has four directions in clockwise order`() {
+        #expect(Compass.Cardinal.allCases == [.north, .east, .south, .west])
     }
 }
 
@@ -55,8 +69,13 @@ extension `Compass.Cardinal - Conformances`.Unit {
     }
 
     @Test
-    func `Ordering operators order clockwise`() {
+    func `Comparison orders clockwise`() {
         #expect(Compass.Cardinal.north < .east)
         #expect(Compass.Cardinal.east < .south)
+        #expect(
+            [Compass.Cardinal.west, .north, .south, .east].sorted() == [
+                .north, .east, .south, .west,
+            ]
+        )
     }
 }

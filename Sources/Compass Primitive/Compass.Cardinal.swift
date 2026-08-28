@@ -1,6 +1,6 @@
 extension Compass {
 
-    public enum Cardinal: Sendable {
+    public enum Cardinal: Sendable, CaseIterable {
 
         case north
 
@@ -86,3 +86,7 @@ extension Compass.Cardinal {
         hasher.combine(_rank)
     }
 }
+
+#if !hasFeature(Embedded)
+    extension Compass.Cardinal: Codable {}
+#endif
