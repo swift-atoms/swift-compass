@@ -1,4 +1,4 @@
-public import Compass_Primitive
-public import Hash
+public import Compass
+public import Hash_Protocol
 
-extension Compass.Cardinal: Hash.`Protocol` {}
+extension Compass::Compass.Cardinal: Hash::Hash.`Protocol` {}

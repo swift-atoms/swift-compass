@@ -28,7 +28,8 @@ print(bearing)            // west
 `allCases` is the clockwise sequence, and ordering follows the same clockwise rank — so directions sort and hash by bearing:
 
 ```swift
-import Compass
+import Compass_Comparison
+import Compass_Hash
 
 Array(Compass.Cardinal.allCases)            // [.north, .east, .south, .west]
 
@@ -39,7 +40,7 @@ let visited: Set<Compass.Cardinal> = [.north, .east, .north]
 visited.count                               // 2
 ```
 
-`Compass.Cardinal` conforms to `CaseIterable` and `Sendable`, is `Codable` outside Embedded, and witnesses the institute `Equation` / `Hash` / `Comparison` protocol twins alongside the stdlib `Equatable` / `Hashable` / `Comparable` conformances.
+`Compass.Cardinal` conforms to `CaseIterable` and `Sendable` and is `Codable` outside Embedded. The `Compass Hash` and `Compass Comparison` layers provide their respective protocol conformances.
 
 ---
 
@@ -47,7 +48,7 @@ visited.count                               // 2
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-compass.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-compass.git", branch: "main")
 ]
 ```
 
@@ -55,7 +56,8 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Compass", package: "swift-compass"),
+        .product(name: "Compass Hash", package: "swift-compass"),
+        .product(name: "Compass Comparison", package: "swift-compass"),
     ]
 )
 ```
@@ -66,16 +68,13 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Import the `Compass` umbrella for the type plus every conformance, or depend on a single sub-namespace target to pay for only the conformance you need.
+Depend on the base namespace or on the specific conformance layer you need.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Compass Primitive` | `Sources/Compass Primitive/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and the `==` / `<` / `hash(into:)` witnesses. Zero dependencies. |
-| `Compass Equation` | `Sources/Compass Equation/` | Conforms `Compass.Cardinal` to the institute `Equation.Protocol` twin. |
-| `Compass Hash` | `Sources/Compass Hash/` | Conforms `Compass.Cardinal` to the institute `Hash.Protocol` twin. |
-| `Compass Comparison` | `Sources/Compass Comparison/` | Conforms `Compass.Cardinal` to the institute `Comparison.Protocol` twin, ordered by clockwise rank. |
-| `Compass` | `Sources/Compass/` | Umbrella: re-exports the namespace and all three conformance modules. |
-| `Compass Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
+| `Compass` | `Sources/Compass/` | The `Compass` namespace and `Compass.Cardinal`: the four directions, `.opposite` / `.clockwise` / `.counterclockwise`, and their operators. Zero dependencies. |
+| `Compass Hash` | `Sources/Compass Hash/` | Conforms `Compass.Cardinal` to `Hash.Protocol`. |
+| `Compass Comparison` | `Sources/Compass Comparison/` | Conforms `Compass.Cardinal` to `Comparison.Protocol`, ordered by clockwise rank. |
 
 Foundation-free.
 
