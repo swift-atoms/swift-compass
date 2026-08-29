@@ -54,12 +54,14 @@ let package = Package(
         .testTarget(
             name: "Compass Hash Tests",
             dependencies: [
+                .target(name: "Compass"),
                 .target(name: "Compass Hash"),
             ]
         ),
         .testTarget(
             name: "Compass Comparison Tests",
             dependencies: [
+                .target(name: "Compass"),
                 .target(name: "Compass Comparison"),
             ]
         ),
