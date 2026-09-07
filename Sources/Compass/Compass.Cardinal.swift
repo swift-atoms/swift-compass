@@ -88,5 +88,5 @@ extension Compass.Cardinal {
 }
 
 #if !hasFeature(Embedded)
-    extension Compass.Cardinal: Codable {}
+extension Compass.Cardinal: Swift.Codable {}
 #endif

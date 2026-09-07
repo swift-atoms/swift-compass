@@ -12,8 +12,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Compass", targets: ["Compass"]),
-        .library(name: "Compass Standard Library Integration", targets: ["Compass Standard Library Integration"]),
-        .library(name: "Compass Foundation Library Integration", targets: ["Compass Foundation Library Integration"]),
+
+        .library(name: "Compass Foundation Integration", targets: ["Compass Foundation Integration"]),
         .library(name: "Compass Test Support", targets: ["Compass Test Support"]),
     ],
     dependencies: [
@@ -35,20 +35,13 @@ let package = Package(
             ],
             path: "Sources/Compass"
         ),
+        
         .target(
-            name: "Compass Standard Library Integration",
+            name: "Compass Foundation Integration",
             dependencies: [
                 .target(name: "Compass"),
             ],
-            path: "Sources/Compass Standard Library Integration"
-        ),
-        .target(
-            name: "Compass Foundation Library Integration",
-            dependencies: [
-                .target(name: "Compass"),
-                .target(name: "Compass Standard Library Integration"),
-            ],
-            path: "Sources/Compass Foundation Library Integration"
+            path: "Sources/Compass Foundation Integration"
         ),
         .target(
             name: "Compass Test Support",
@@ -62,8 +55,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Compass"),
                 .target(name: "Compass Test Support"),
-                .target(name: "Compass Standard Library Integration"),
-                .target(name: "Compass Foundation Library Integration"),
+                .target(name: "Compass Foundation Integration"),
             ],
             path: "Tests/Compass Tests"
         ),
