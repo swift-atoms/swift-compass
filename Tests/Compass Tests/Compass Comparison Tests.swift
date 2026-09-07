@@ -1,5 +1,4 @@
 import Compass
-import Compass_Comparison
 import Testing
 
 @Suite

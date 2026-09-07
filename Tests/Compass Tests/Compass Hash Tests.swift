@@ -1,5 +1,4 @@
 import Compass
-import Compass_Hash
 import Testing
 
 @Suite

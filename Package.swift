@@ -11,11 +11,10 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
         .library(name: "Compass", targets: ["Compass"]),
-
-        .library(name: "Compass Hash", targets: ["Compass Hash"]),
-        .library(name: "Compass Comparison", targets: ["Compass Comparison"]),
+        .library(name: "Compass Standard Library Integration", targets: ["Compass Standard Library Integration"]),
+        .library(name: "Compass Foundation Library Integration", targets: ["Compass Foundation Library Integration"]),
+        .library(name: "Compass Test Support", targets: ["Compass Test Support"]),
     ],
     dependencies: [
         .package(
@@ -28,49 +27,52 @@ let package = Package(
         ),
     ],
     targets: [
-
-        .target(name: "Compass", dependencies: []),
-
         .target(
-            name: "Compass Hash",
+            name: "Compass",
             dependencies: [
-                .target(name: "Compass"),
-                .product(name: "Hash Protocol", package: "swift-hash"),
-            ]
+                .product(name: "Hash", package: "swift-hash"),
+                .product(name: "Comparison", package: "swift-comparison"),
+            ],
+            path: "Sources/Compass"
         ),
         .target(
-            name: "Compass Comparison",
+            name: "Compass Standard Library Integration",
             dependencies: [
                 .target(name: "Compass"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-            ]
+            ],
+            path: "Sources/Compass Standard Library Integration"
+        ),
+        .target(
+            name: "Compass Foundation Library Integration",
+            dependencies: [
+                .target(name: "Compass"),
+                .target(name: "Compass Standard Library Integration"),
+            ],
+            path: "Sources/Compass Foundation Library Integration"
+        ),
+        .target(
+            name: "Compass Test Support",
+            dependencies: [
+                .target(name: "Compass"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Compass Tests",
             dependencies: [
                 .target(name: "Compass"),
-            ]
-        ),
-        .testTarget(
-            name: "Compass Hash Tests",
-            dependencies: [
-                .target(name: "Compass"),
-                .target(name: "Compass Hash"),
-            ]
-        ),
-        .testTarget(
-            name: "Compass Comparison Tests",
-            dependencies: [
-                .target(name: "Compass"),
-                .target(name: "Compass Comparison"),
-            ]
+                .target(name: "Compass Test Support"),
+                .target(name: "Compass Standard Library Integration"),
+                .target(name: "Compass Foundation Library Integration"),
+            ],
+            path: "Tests/Compass Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -79,8 +81,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-
-    let package: [SwiftSetting] = []
-
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
