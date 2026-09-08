@@ -17,6 +17,9 @@ let package = Package(
         .library(name: "Compass Test Support", targets: ["Compass Test Support"]),
     ],
     dependencies: [
+
+        .package(url: "https://github.com/swift-atoms/swift-equation.git", branch: "main"),
+
         .package(
             url: "https://github.com/swift-atoms/swift-hash.git",
             branch: "main"
@@ -58,6 +61,33 @@ let package = Package(
                 .target(name: "Compass Foundation Integration"),
             ],
             path: "Tests/Compass Tests"
+        ),
+        .testTarget(
+            name: "Consolidated Compass Comparison Tests",
+            dependencies: [
+
+                .target(name: "Compass"),
+                .product(name: "Comparison", package: "swift-comparison"),
+            ],
+            path: "Tests/Consolidated swift-compass-comparison"
+        ),
+        .testTarget(
+            name: "Consolidated Compass Equation Tests",
+            dependencies: [
+
+                .target(name: "Compass"),
+                .product(name: "Equation", package: "swift-equation"),
+            ],
+            path: "Tests/Consolidated swift-compass-equation"
+        ),
+        .testTarget(
+            name: "Consolidated Compass Hash Tests",
+            dependencies: [
+
+                .target(name: "Compass"),
+                .product(name: "Hash", package: "swift-hash"),
+            ],
+            path: "Tests/Consolidated swift-compass-hash"
         ),
     ],
     swiftLanguageModes: [.v6]
