@@ -16,14 +16,33 @@ let package = Package(
         .library(name: "Compass Foundation Integration", targets: ["Compass Foundation Integration"]),
         .library(name: "Compass Test Support", targets: ["Compass Test Support"]),
     ],
-    dependencies: [],
+    traits: [
+        .trait(name: "Cyclic", description: "Cyclic integration"),
+        .trait(name: "Facet", description: "Facet integration"),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-cyclic.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-facet.git", branch: "main"),
+
+
+    ],
     targets: [
+        .testTarget(name: "Compass Cyclic Tests", dependencies: [
+                .target(name: "Compass"),
+                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"]))
+            ], path: "Tests/Compass Cyclic Tests"),
         .target(
             name: "Compass",
-            dependencies: [],
+            dependencies: [
+                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Cyclic"])),
+                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"])),
+                .product(name: "Facet", package: "swift-facet", condition: .when(traits: ["Facet"])),
+
+            ],
             path: "Sources/Compass"
         ),
-        
+
         .target(
             name: "Compass Foundation Integration",
             dependencies: [
@@ -46,6 +65,14 @@ let package = Package(
                 .target(name: "Compass Foundation Integration"),
             ],
             path: "Tests/Compass Tests"
+        ),
+        .testTarget(
+            name: "Compass Facet Tests",
+            dependencies: [
+                .target(name: "Compass"),
+                .product(name: "Facet", package: "swift-facet", condition: .when(traits: ["Facet"])),
+            ],
+            path: "Tests/Compass Facet Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
