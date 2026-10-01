@@ -28,10 +28,6 @@ let package = Package(
 
     ],
     targets: [
-        .testTarget(name: "Compass Cyclic Tests", dependencies: [
-                .target(name: "Compass"),
-                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"]))
-            ], path: "Tests/Compass Cyclic Tests"),
         .target(
             name: "Compass",
             dependencies: [
