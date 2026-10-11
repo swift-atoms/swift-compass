@@ -58,7 +58,6 @@ let package = Package(
             dependencies: [
                 .target(name: "Compass"),
                 .target(name: "Compass Test Support"),
-                .target(name: "Compass Foundation Integration"),
             ],
             path: "Tests/Compass Tests"
         ),
@@ -74,7 +73,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),

@@ -1,1 +1,1 @@
-extension Compass::Compass.Cardinal: Swift.Hashable {}
+extension Compass::Compass.Cardinal: Swift::Hashable {}

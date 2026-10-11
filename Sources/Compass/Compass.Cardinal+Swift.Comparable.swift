@@ -1,1 +1,1 @@
-extension Compass::Compass.Cardinal: Swift.Comparable {}
+extension Compass::Compass.Cardinal: Swift::Comparable {}
