@@ -13,7 +13,10 @@ let package = Package(
     products: [
         .library(name: "Compass", targets: ["Compass"]),
 
-        .library(name: "Compass Foundation Integration", targets: ["Compass Foundation Integration"]),
+        .library(
+            name: "Compass Foundation Integration",
+            targets: ["Compass Foundation Integration"]
+        ),
         .library(name: "Compass Test Support", targets: ["Compass Test Support"]),
     ],
     traits: [
@@ -25,15 +28,26 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-cyclic.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-facet.git", branch: "main"),
 
-
     ],
     targets: [
         .target(
             name: "Compass",
             dependencies: [
-                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Cyclic"])),
-                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"])),
-                .product(name: "Facet", package: "swift-facet", condition: .when(traits: ["Facet"])),
+                .product(
+                    name: "Ordinal",
+                    package: "swift-ordinal",
+                    condition: .when(traits: ["Cyclic"])
+                ),
+                .product(
+                    name: "Cyclic",
+                    package: "swift-cyclic",
+                    condition: .when(traits: ["Cyclic"])
+                ),
+                .product(
+                    name: "Facet",
+                    package: "swift-facet",
+                    condition: .when(traits: ["Facet"])
+                ),
 
             ],
             path: "Sources/Compass"
@@ -42,14 +56,14 @@ let package = Package(
         .target(
             name: "Compass Foundation Integration",
             dependencies: [
-                .target(name: "Compass"),
+                .target(name: "Compass")
             ],
             path: "Sources/Compass Foundation Integration"
         ),
         .target(
             name: "Compass Test Support",
             dependencies: [
-                .target(name: "Compass"),
+                .target(name: "Compass")
             ],
             path: "Tests/Support"
         ),
@@ -65,7 +79,11 @@ let package = Package(
             name: "Compass Facet Tests",
             dependencies: [
                 .target(name: "Compass"),
-                .product(name: "Facet", package: "swift-facet", condition: .when(traits: ["Facet"])),
+                .product(
+                    name: "Facet",
+                    package: "swift-facet",
+                    condition: .when(traits: ["Facet"])
+                ),
             ],
             path: "Tests/Compass Facet Tests"
         ),
@@ -74,14 +92,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }
