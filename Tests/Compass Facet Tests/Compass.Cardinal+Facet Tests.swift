@@ -2,13 +2,17 @@
     import Compass
     import Testing
 
-    @Suite
-    struct `Compass.Cardinal Facet projection` {
-        @Suite struct Unit {}
+enum `Compass.Cardinal+Facet Tests` {}
 
-    }
+extension `Compass.Cardinal+Facet Tests` {
+        @Suite
+        struct `Compass.Cardinal Facet projection` {
+            @Suite struct Unit {}
 
-    extension `Compass.Cardinal Facet projection`.Unit {
+        }
+}
+
+    extension `Compass.Cardinal+Facet Tests`.`Compass.Cardinal Facet projection`.Unit {
         @Test
         func `facet maps each bearing to its box facet`() {
             #expect(
