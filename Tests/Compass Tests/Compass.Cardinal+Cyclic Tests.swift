@@ -2,16 +2,16 @@
     import Compass
     import Testing
 
-enum `Compass.Cardinal+Cyclic Tests` {}
+    enum `Compass.Cardinal+Cyclic Tests` {}
 
-extension `Compass.Cardinal+Cyclic Tests` {
+    extension `Compass.Cardinal+Cyclic Tests` {
         @Suite
         struct `Compass.Cardinal Cyclic projection` {
             @Suite struct Unit {}
             @Suite struct `Edge Case` {}
             @Suite struct Integration {}
         }
-}
+    }
 
     extension `Compass.Cardinal+Cyclic Tests`.`Compass.Cardinal Cyclic projection`.Unit {
         @Test

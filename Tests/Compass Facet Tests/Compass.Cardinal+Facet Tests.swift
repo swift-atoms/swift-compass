@@ -2,15 +2,15 @@
     import Compass
     import Testing
 
-enum `Compass.Cardinal+Facet Tests` {}
+    enum `Compass.Cardinal+Facet Tests` {}
 
-extension `Compass.Cardinal+Facet Tests` {
+    extension `Compass.Cardinal+Facet Tests` {
         @Suite
         struct `Compass.Cardinal Facet projection` {
             @Suite struct Unit {}
 
         }
-}
+    }
 
     extension `Compass.Cardinal+Facet Tests`.`Compass.Cardinal Facet projection`.Unit {
         @Test
